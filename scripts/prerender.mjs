@@ -1,78 +1,51 @@
-import puppeteer from "puppeteer";
-import { createServer } from "http";
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
+import { build } from "vite";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DIST_DIR = join(__dirname, "..", "dist");
+const ROOT_DIR = join(__dirname, "..");
+const DIST_DIR = join(ROOT_DIR, "dist");
+const SERVER_DIR = join(DIST_DIR, "server");
 const ROUTES = ["/", "/layanan"];
-const PORT = 4173;
-
-// Simple static file server for the dist folder
-function startServer() {
-  const mimeTypes = {
-    ".html": "text/html",
-    ".js": "application/javascript",
-    ".css": "text/css",
-    ".json": "application/json",
-    ".png": "image/png",
-    ".jpg": "image/jpeg",
-    ".svg": "image/svg+xml",
-    ".ico": "image/x-icon",
-    ".xml": "application/xml",
-    ".txt": "text/plain",
-  };
-
-  const server = createServer((req, res) => {
-    let filePath = join(DIST_DIR, req.url === "/" ? "index.html" : req.url);
-
-    // SPA fallback: if file doesn't exist, serve index.html
-    if (!existsSync(filePath)) {
-      filePath = join(DIST_DIR, "index.html");
-    }
-
-    try {
-      const content = readFileSync(filePath);
-      const ext = "." + filePath.split(".").pop();
-      res.writeHead(200, { "Content-Type": mimeTypes[ext] || "text/html" });
-      res.end(content);
-    } catch {
-      res.writeHead(404);
-      res.end("Not found");
-    }
-  });
-
-  return new Promise((resolve) => {
-    server.listen(PORT, () => resolve(server));
-  });
-}
 
 async function prerender() {
-  console.log("Starting prerender...");
+  console.log("Building SSR bundle...");
 
-  const server = await startServer();
-  console.log(`Static server running on port ${PORT}`);
+  // Build SSR bundle using Vite
+  await build({
+    root: ROOT_DIR,
+    build: {
+      ssr: true,
+      outDir: SERVER_DIR,
+      rollupOptions: {
+        input: join(ROOT_DIR, "src", "entry-server.tsx"),
+      },
+    },
+    ssr: {
+      // Bundle all deps to avoid CJS/ESM compatibility issues
+      noExternal: true,
+    },
+    logLevel: "warn",
+  });
 
-  const browser = await puppeteer.launch({ headless: true });
+  // Load the SSR module
+  const { render } = await import(join(SERVER_DIR, "entry-server.js"));
+
+  // Read the client-built template
+  const template = readFileSync(join(DIST_DIR, "index.html"), "utf-8");
 
   for (const route of ROUTES) {
     console.log(`Prerendering: ${route}`);
-    const page = await browser.newPage();
-    await page.goto(`http://localhost:${PORT}${route}`, {
-      waitUntil: "networkidle0",
-      timeout: 30000,
-    });
+    const { html } = render(route);
 
-    // Wait for React to finish rendering
-    await page.waitForSelector("#root > *", { timeout: 10000 });
-    // Extra wait for framer-motion animations to settle
-    await new Promise((r) => setTimeout(r, 2000));
+    // Inject prerendered HTML into the template
+    const output = template.replace(
+      '<div id="root"></div>',
+      `<div id="root">${html}</div>`
+    );
 
-    const html = await page.content();
-    await page.close();
-
-    // Write the prerendered HTML
+    // Write to the correct path
     const outputPath =
       route === "/"
         ? join(DIST_DIR, "index.html")
@@ -83,12 +56,13 @@ async function prerender() {
       mkdirSync(outputDir, { recursive: true });
     }
 
-    writeFileSync(outputPath, html);
+    writeFileSync(outputPath, output);
     console.log(`  -> Saved: ${outputPath}`);
   }
 
-  await browser.close();
-  server.close();
+  // Clean up SSR build artifacts
+  rmSync(SERVER_DIR, { recursive: true, force: true });
+
   console.log("Prerender complete!");
 }
 

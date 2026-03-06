@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 
 const SITE_NAME = "Ozil Trans354 Tour & Travel";
 // Ganti dengan domain asli setelah beli domain
-const SITE_URL = "https://oziltrans354.com";
+const SITE_URL = "https://oziltrans354.vercel.app";
 
 interface SEOProps {
   title?: string;

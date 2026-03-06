@@ -1,5 +1,5 @@
 # Ozil Trans354 Tour & Travel
-# Ganti https://oziltrans354.com dengan domain asli Anda
+# Ganti https://oziltrans354.vercel.app dengan domain asli Anda
 
 User-agent: Googlebot
 Allow: /
@@ -16,4 +16,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://oziltrans354.com/sitemap.xml
+Sitemap: https://oziltrans354.vercel.app/sitemap.xml

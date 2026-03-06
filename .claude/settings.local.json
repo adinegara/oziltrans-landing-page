@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:oziltrans354.vercel.app)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm run build:*)"
+    ]
+  }
+}

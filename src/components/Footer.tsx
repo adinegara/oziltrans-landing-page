@@ -45,7 +45,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
-              Layanan rental mobil terpercaya dengan armada terbaik, harga terjangkau, dan pelayanan profesional untuk kebutuhan perjalanan Anda.
+              Rental mobil murah dan terpercaya di Jogja (Yogyakarta), Pulau Jawa & seluruh Indonesia. Sewa mobil dengan sopir profesional, lepas kunci, dan antar jemput bandara — armada terbaik, harga terjangkau, layanan 24 jam.
             </p>
           </div>
 
@@ -63,7 +63,7 @@ const Footer = () => {
               </div>
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-0.5 text-accent shrink-0" />
-                <span>Indonesia</span>
+                <span>Yogyakarta, Indonesia</span>
               </div>
               <div className="flex items-start gap-2">
                 <Clock className="w-4 h-4 mt-0.5 text-accent shrink-0" />

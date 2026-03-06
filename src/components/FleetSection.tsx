@@ -151,10 +151,10 @@ const FleetSection = () => {
           className="text-center mb-12"
         >
           <h2 className="text-2xl md:text-4xl font-extrabold text-foreground">
-            Pilihan Mobil <span className="text-primary">Terbaik</span> Untuk Perjalanan Anda
+            Pilihan <span className="text-primary">Armada Rental Mobil</span> Terbaik di Jogja
           </h2>
           <p className="mt-3 text-muted-foreground text-sm md:text-base max-w-xl mx-auto">
-            Kami menyediakan berbagai pilihan armada dengan kondisi terawat dan nyaman untuk segala kebutuhan perjalanan Anda.
+            Sewa mobil murah di Jogja (Yogyakarta) dan se-Pulau Jawa dengan berbagai pilihan armada terawat dan nyaman. Dari city car hingga minibus, tersedia untuk rental harian, mingguan, dan bulanan.
           </p>
         </motion.div>
 
@@ -180,7 +180,7 @@ const FleetSection = () => {
           {/* Carousel */}
           <div
             ref={scrollRef}
-            className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
+            className="flex gap-5 overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide pb-4"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {cars.map((car, i) => (
@@ -195,7 +195,7 @@ const FleetSection = () => {
                 <div className=" p-6 flex items-center justify-center h-56 overflow-hidden">
                   <img
                     src={car.image}
-                    alt={car.name}
+                    alt={`Sewa ${car.name} Jogja - Rental Mobil Ozil Trans354`}
                     className="w-full max-w-[280px] object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>

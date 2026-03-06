@@ -7,7 +7,7 @@ const features = [
   { icon: Smile, title: "Berkendara Nyaman", desc: "Interior bersih, wangi, dan nyaman untuk pengalaman perjalanan terbaik Anda." },
   { icon: ShieldCheck, title: "Bebas Khawatir", desc: "Dilengkapi asuransi dan jaminan keselamatan penuh selama perjalanan berlangsung." },
   { icon: Car, title: "Mobil Baru", desc: "Armada mobil dalam kondisi baru dan terawat untuk kenyamanan perjalanan Anda." },
-  { icon: UserCheck, title: "Sopir Profesional", desc: "Driver berpengalaman, ramah, dan menguasai rute untuk perjalanan yang aman." },
+  { icon: UserCheck, title: "Sopir Profesional", desc: "Rental mobil dengan sopir berpengalaman di Jogja, ramah, dan menguasai rute untuk perjalanan yang aman." },
 ];
 
 const FeaturesSection = () => {
@@ -27,7 +27,7 @@ const FeaturesSection = () => {
                 Keunggulan Kami
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-tight">
-                Rasakan Keamanan &amp; Pelayanan Terbaik
+                Keunggulan Rental Mobil di Ozil Trans354
               </h2>
             </div>
             <div>

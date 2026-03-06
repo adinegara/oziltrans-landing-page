@@ -31,9 +31,13 @@ const HeroSection = () => {
               <span className="text-primary">Mobil</span>
               <br />
               Terpercaya
+              <br />
+              <span className="text-2xl md:text-3xl lg:text-4xl text-muted-foreground font-bold">
+                di Jogja &amp; Seluruh Indonesia
+              </span>
             </h1>
-            <p className="mt-6 text-muted-foreground text-sm md:text-base max-w-md leading-relaxed">
-              Menyediakan layanan rental mobil dengan armada terbaik, harga terjangkau, dan pelayanan profesional untuk perjalanan Anda.
+            <p className="mt-6 text-muted-foreground text-sm md:text-base max-w-lg leading-relaxed">
+              Sewa mobil murah di Jogja (Yogyakarta) dan Pulau Jawa dengan armada terbaik dan sopir profesional. Tersedia rental mobil lepas kunci, rental dengan sopir, dan antar jemput bandara — harga terjangkau, pelayanan 24 jam.
             </p>
             <a
               href={WA_LINK}
@@ -103,7 +107,7 @@ const HeroSection = () => {
             {/* Car image on top */}
             <img
               src={carImage}
-              alt="Pajero Sport"
+              alt="Rental Mobil Jogja - Mitsubishi Pajero Sport Ozil Trans354"
               className="relative z-10 w-full max-w-2xl md:max-w-3xl lg:max-w-5xl object-contain drop-shadow-2xl"
             />
           </motion.div>

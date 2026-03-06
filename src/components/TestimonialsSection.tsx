@@ -51,7 +51,7 @@ const TestimonialsSection = () => {
               Testimoni
             </span>
             <h2 className="text-2xl md:text-4xl font-extrabold text-foreground">
-              Apa Kata <span className="text-accent">Pelanggan Kami?</span>
+              Testimoni Pelanggan <span className="text-accent">Rental Mobil Kami</span>
             </h2>
           </div>
 

@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { Car, UserCheck, PlaneTakeoff, Building2, CalendarDays, MapPin, ArrowRight } from "lucide-react";
 
@@ -9,45 +10,51 @@ const WA_LINK = "https://wa.me/6281333993654";
 const services = [
   {
     icon: Car,
-    title: "Rental Mobil Lepas Kunci",
+    title: "Rental Mobil Lepas Kunci Jogja",
     description:
-      "Nikmati kebebasan berkendara sendiri dengan pilihan mobil yang nyaman dan terawat. Tersedia harian, mingguan, atau bulanan.",
+      "Nikmati kebebasan berkendara sendiri dengan sewa mobil lepas kunci di Jogja (Yogyakarta). Pilihan mobil nyaman dan terawat, tersedia harian, mingguan, atau bulanan dengan harga murah.",
   },
   {
     icon: UserCheck,
-    title: "Rental Mobil dengan Sopir",
+    title: "Rental Mobil dengan Sopir Jogja",
     description:
-      "Perjalanan lebih nyaman dan aman dengan sopir profesional, ramah, dan berpengalaman yang siap mengantar Anda ke mana saja.",
+      "Perjalanan lebih nyaman dan aman dengan rental mobil plus sopir profesional di Jogja. Sopir ramah dan berpengalaman siap mengantar Anda ke mana saja.",
   },
   {
     icon: PlaneTakeoff,
-    title: "Drop Off & Antar Jemput Bandara",
+    title: "Antar Jemput Bandara Jogja",
     description:
-      "Layanan antar jemput bandara yang tepat waktu dan terpercaya. Anda tidak perlu khawatir soal keterlambatan.",
+      "Layanan antar jemput bandara Jogja (YIA & Adisucipto) yang tepat waktu dan terpercaya. Sewa mobil bandara dengan harga terjangkau.",
   },
   {
     icon: Building2,
     title: "Sewa Mobil Operasional Perusahaan",
     description:
-      "Solusi transportasi untuk kebutuhan operasional perusahaan Anda. Tersedia kontrak bulanan dan tahunan dengan harga kompetitif.",
+      "Solusi rental mobil untuk kebutuhan operasional perusahaan di Jogja, Jawa, dan seluruh Indonesia. Tersedia kontrak bulanan dan tahunan dengan harga kompetitif.",
   },
   {
     icon: CalendarDays,
-    title: "Sewa Harian, Mingguan, Bulanan",
+    title: "Sewa Mobil Harian, Mingguan, Bulanan",
     description:
-      "Pilihan durasi sewa yang fleksibel, disesuaikan dengan kebutuhan Anda. Harga terjangkau dan proses mudah dan cepat.",
+      "Pilihan durasi sewa mobil murah yang fleksibel di Jogja (Yogyakarta). Rental harian, mingguan, atau bulanan dengan proses mudah dan cepat.",
   },
   {
     icon: MapPin,
-    title: "Perjalanan Wisata & Luar Kota",
+    title: "Paket Wisata Jogja & Luar Kota",
     description:
-      "Kami menyediakan paket perjalanan wisata ke berbagai destinasi favorit dengan armada nyaman dan sopir berpengalaman.",
+      "Paket wisata Jogja (Yogyakarta) dan perjalanan luar kota dengan armada nyaman dan sopir berpengalaman. Rental mobil wisata murah untuk keluarga dan rombongan.",
   },
 ];
 
 const Layanan = () => {
   return (
     <main className="min-h-screen">
+      <SEO
+        title="Layanan Rental Mobil Jogja - Sewa Mobil Murah dengan Sopir"
+        description="Layanan rental mobil lengkap di Jogja (Yogyakarta) & Jawa: sewa mobil lepas kunci, rental mobil dengan sopir profesional, antar jemput bandara, sewa harian/mingguan/bulanan. Harga murah & armada terbaik."
+        keywords="layanan rental mobil Jogja, layanan rental mobil Jawa, layanan rental mobil Yogyakarta, sewa mobil murah Jogja, sewa mobil murah Jawa, rental mobil dengan sopir Jogja, rental mobil dengan sopir Jawa, rental mobil lepas kunci Jogja, antar jemput bandara Jogja, sewa mobil harian Jogja, rental mobil bulanan, sewa mobil operasional perusahaan, paket wisata Jogja, paket wisata Jawa"
+        path="/layanan"
+      />
       <Navbar />
 
       {/* Intro */}
@@ -59,12 +66,12 @@ const Layanan = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-2xl md:text-3xl font-extrabold text-foreground">
-              LAYANAN RENTAL MOBIL <span className="text-accent">LENGKAP</span>
+              LAYANAN RENTAL MOBIL <span className="text-accent">JOGJA</span>
             </h2>
             <p className="mt-4 text-muted-foreground text-sm md:text-base leading-relaxed">
-              Kami menyediakan berbagai layanan rental mobil yang terbaik untuk memenuhi semua
-              kebutuhan perjalanan Anda. Dari perjalanan pribadi, bisnis, maupun wisata —
-              semuanya tersedia di sini.
+              Ozil Trans354 menyediakan berbagai layanan sewa mobil murah di Jogja (Yogyakarta), Pulau Jawa, dan seluruh Indonesia.
+              Dari rental mobil lepas kunci, rental mobil dengan sopir, hingga antar jemput bandara —
+              semua tersedia dengan harga terjangkau dan armada terbaik.
             </p>
           </motion.div>
         </div>

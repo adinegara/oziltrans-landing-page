@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(git -C /Users/mymac/code/ozil-trans-landing-page ls-files)",
-      "Bash(git -C /Users/mymac/code/ozil-trans-landing-page ls-files:*)"
-    ]
-  }
-}

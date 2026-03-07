@@ -134,7 +134,7 @@ const Footer = () => {
 
       {/* Large brand text watermark */}
       <div className="overflow-hidden select-none pointer-events-none">
-        <div className="max-w-7xl mx-auto px-4 -mb-12">
+        <div className="max-w-7xl mx-auto px-4 -mb-4 md:-mb-12">
           <span className="block text-[clamp(3rem,12vw,10rem)] font-extrabold leading-none opacity-[0.04] tracking-tight whitespace-nowrap">
             OzilTrans354
           </span>

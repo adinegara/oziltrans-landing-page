@@ -24,6 +24,51 @@ const SEO = ({
     : `${SITE_NAME} - Rental Mobil Murah & Terpercaya di Jogja`;
   const canonicalUrl = `${SITE_URL}${path}`;
 
+  const siteNavigationSchema = {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    name: SITE_NAME,
+    url: SITE_URL,
+    hasPart: [
+      {
+        "@type": "SiteNavigationElement",
+        name: "Beranda",
+        description: "Halaman utama Ozil Trans354 Tour & Travel",
+        url: `${SITE_URL}/`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        name: "Layanan",
+        description: "Daftar layanan rental mobil, sewa mobil dengan sopir, dan antar jemput bandara",
+        url: `${SITE_URL}/layanan`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        name: "Armada",
+        description: "Daftar armada mobil yang tersedia untuk rental di Jogja",
+        url: `${SITE_URL}/#armada`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        name: "Keunggulan",
+        description: "Keunggulan layanan rental mobil Ozil Trans354",
+        url: `${SITE_URL}/#keunggulan`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        name: "Testimoni",
+        description: "Testimoni pelanggan rental mobil Ozil Trans354",
+        url: `${SITE_URL}/#testimoni`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        name: "Kontak",
+        description: "Hubungi Ozil Trans354 Tour & Travel untuk rental mobil di Jogja",
+        url: `${SITE_URL}/#kontak`,
+      },
+    ],
+  };
+
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -146,6 +191,9 @@ const SEO = ({
       {/* JSON-LD Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify(localBusinessSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(siteNavigationSchema)}
       </script>
     </Helmet>
   );

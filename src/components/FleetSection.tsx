@@ -8,111 +8,52 @@ import carAlphard from "@/assets/Toyota Alphard.png";
 import carAvanza from "@/assets/Toyota Avanza.png";
 import carFortunerTrd from "@/assets/Toyota Fortuner TRD Sportivo Auto.png";
 import carHilux from "@/assets/Toyota Hilux  Truk pickup.png";
-import carHiace from "@/assets/car-hiace.png";
+import carHiace from "@/assets/hiace commuter.jpg";
 import carXenia from "@/assets/great new xenia.png";
 import carInnova from "@/assets/kijang innova.png";
 import carLuxio from "@/assets/luxio type M.png";
 import carCalya from "@/assets/new calya.png";
 import carPajero from "@/assets/pajero_sport.png";
+import Papa from "papaparse";
 
 const WA_LINK = "https://wa.me/6281333993654";
 
-const cars = [
-  {
-    name: "Toyota Corolla",
-    image: carCorolla,
-    seats: "5 Kursi",
-    fuel: "Bensin",
-    transmission: "Matic",
-  },
-  {
-    name: "Honda Brio",
-    image: carBrio,
-    seats: "5 Kursi",
-    fuel: "Bensin",
-    transmission: "Matic / Manual",
-  },
-  {
-    name: "Jeep Grand Cherokee",
-    image: carGrandCherokee,
-    seats: "5 Kursi",
-    fuel: "Bensin",
-    transmission: "Matic",
-  },
-  {
-    name: "Toyota Alphard",
-    image: carAlphard,
-    seats: "7 Kursi",
-    fuel: "Bensin",
-    transmission: "Matic",
-  },
-  {
-    name: "Toyota Avanza",
-    image: carAvanza,
-    seats: "7 Kursi",
-    fuel: "Bensin",
-    transmission: "Matic / Manual",
-  },
-  {
-    name: "Toyota Fortuner TRD",
-    image: carFortunerTrd,
-    seats: "7 Kursi",
-    fuel: "Diesel",
-    transmission: "Matic",
-  },
-  {
-    name: "Toyota Hilux",
-    image: carHilux,
-    seats: "5 Kursi",
-    fuel: "Diesel",
-    transmission: "Manual / Matic",
-  },
-  {
-    name: "Toyota HiAce",
-    image: carHiace,
-    seats: "15 Kursi",
-    fuel: "Diesel",
-    transmission: "Manual",
-  },
-  {
-    name: "Daihatsu Xenia",
-    image: carXenia,
-    seats: "7 Kursi",
-    fuel: "Bensin",
-    transmission: "Matic / Manual",
-  },
-  {
-    name: "Toyota Kijang Innova",
-    image: carInnova,
-    seats: "7 Kursi",
-    fuel: "Bensin / Diesel",
-    transmission: "Matic / Manual",
-  },
-  {
-    name: "Daihatsu Luxio Type M",
-    image: carLuxio,
-    seats: "8 Kursi",
-    fuel: "Bensin",
-    transmission: "Manual",
-  },
-  {
-    name: "Toyota Calya",
-    image: carCalya,
-    seats: "7 Kursi",
-    fuel: "Bensin",
-    transmission: "Matic / Manual",
-  },
-  {
-    name: "Mitsubishi Pajero Sport",
-    image: carPajero,
-    seats: "7 Kursi",
-    fuel: "Diesel",
-    transmission: "Matic / Manual",
-  },
-];
+// Replace this with your Google Sheet CSV publish link
+const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHgf5JKWQXP6qLjHqs2-0Jkj15g93qIvkxpPPxCio4kTEmKoditYBzpBCPO5dE5IaKAt_ALF3IOFfD/pub?output=csv";
+
+interface CarData {
+  name: string;
+  image: string;
+  seats: string;
+  fuel: string;
+  transmission: string;
+}
+
+const getDirectImageUrl = (url: string) => {
+  if (!url) return "";
+
+  // Handle Google Drive links
+  if (url.includes("drive.google.com")) {
+    const match = url.match(/\/d\/([^/?]+)/) || url.match(/id=([^&]+)/);
+    if (match && match[1]) {
+      // thumbnail?id=ID&sz=w1000 is much more reliable for embedding and avoids download quotas
+      return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
+    }
+  }
+
+  // Handle Dropbox links
+  if (url.includes("dropbox.com")) {
+    return url.replace("?dl=0", "?raw=1").replace("&dl=0", "&raw=1");
+  }
+
+  return url;
+};
 
 const FleetSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [cars, setCars] = useState<CarData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
@@ -124,11 +65,41 @@ const FleetSection = () => {
   };
 
   useEffect(() => {
+    // Fetch data from Google Sheets
+    setIsLoading(true);
+    Papa.parse(GOOGLE_SHEET_CSV_URL, {
+      download: true,
+      header: true,
+      complete: (results) => {
+        const parsedCars = results.data
+          .filter((row: any) => row.name && row.image) // Ensure row has basic data
+          .map((row: any) => ({
+            name: row.name,
+            image: getDirectImageUrl(row.image),
+            seats: row.seats || "N/A",
+            fuel: row.fuel || "N/A",
+            transmission: row.transmission || "N/A",
+          }));
+        setCars(parsedCars as CarData[]);
+        setIsLoading(false);
+      },
+      error: (error: any) => {
+        console.error("Error fetching sheet data:", error);
+        setError("Gagal memuat data armada.");
+        setIsLoading(false);
+      },
+    });
+
     checkScroll();
     const el = scrollRef.current;
+
+    // Check scroll after a slight delay to ensure items are rendered
+    const scrollTimeout = setTimeout(checkScroll, 100);
+
     el?.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
     return () => {
+      clearTimeout(scrollTimeout);
       el?.removeEventListener("scroll", checkScroll);
       window.removeEventListener("resize", checkScroll);
     };
@@ -160,7 +131,7 @@ const FleetSection = () => {
 
         <div className="relative">
           {/* Navigation Buttons */}
-          {canScrollLeft && (
+          {canScrollLeft && !isLoading && !error && (
             <button
               onClick={() => scroll("left")}
               className="absolute -left-2 md:-left-5 top-1/2 -translate-y-1/2 z-10 bg-primary text-primary-foreground w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors"
@@ -168,13 +139,29 @@ const FleetSection = () => {
               <ChevronLeft className="w-5 h-5" />
             </button>
           )}
-          {canScrollRight && (
+          {canScrollRight && !isLoading && !error && cars.length > 0 && (
             <button
               onClick={() => scroll("right")}
               className="absolute -right-2 md:-right-5 top-1/2 -translate-y-1/2 z-10 bg-primary text-primary-foreground w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-12 text-destructive">
+              <p>{error}</p>
+            </div>
+          )}
+
+          {/* Loading State */}
+          {isLoading && !error && (
+            <div className="flex gap-5 overflow-x-hidden pb-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="min-w-[260px] md:min-w-[300px] h-[380px] bg-muted/50 rounded-2xl animate-pulse" />
+              ))}
+            </div>
           )}
 
           {/* Carousel */}
@@ -192,11 +179,12 @@ const FleetSection = () => {
                 transition={{ delay: Math.min(i * 0.1, 0.3) }}
                 className="min-w-[260px] md:min-w-[300px] snap-start bg-card rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-lg transition-shadow group flex-shrink-0"
               >
-                <div className=" p-6 flex items-center justify-center h-56 overflow-hidden">
+                <div className="flex items-center justify-center h-56 w-full overflow-hidden">
                   <img
                     src={car.image}
                     alt={`Sewa ${car.name} Jogja - Rental Mobil Ozil Trans354`}
-                    className="w-full max-w-[280px] object-contain group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="p-5">
@@ -207,7 +195,7 @@ const FleetSection = () => {
                     <span className="flex items-center gap-1"><Settings className="w-3.5 h-3.5 text-accent" />{car.transmission}</span>
                   </div>
                   <a
-                    href={WA_LINK}
+                    href={`${WA_LINK}?text=${encodeURIComponent(`Halo Ozil Trans354, saya ingin booking mobil ${car.name}.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 block text-center bg-primary text-primary-foreground py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"

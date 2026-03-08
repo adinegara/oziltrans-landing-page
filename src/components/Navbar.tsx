@@ -87,7 +87,7 @@ const Navbar = () => {
             href={WA_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-primary text-primary-foreground px-5 py-2.5 rounded-full text-sm font-bold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-md shadow-primary/20 flex items-center gap-2"
+            className="bg-accent text-accent-foreground px-5 py-2.5 rounded-full text-sm font-bold hover:bg-accent/90 transition-all hover:scale-105 active:scale-95 shadow-md shadow-accent/20 flex items-center gap-2"
           >
             <Phone className="w-4 h-4" /> Hubungi Kami
           </a>

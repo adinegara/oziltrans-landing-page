@@ -48,7 +48,7 @@ const services = [
 
 const Layanan = () => {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-16 md:pt-20">
       <SEO
         title="Layanan Rental Mobil Jogja - Sewa Mobil Murah dengan Sopir"
         description="Layanan rental mobil lengkap di Jogja (Yogyakarta) & Jawa: sewa mobil lepas kunci, rental mobil dengan sopir profesional, antar jemput bandara, sewa harian/mingguan/bulanan. Harga murah & armada terbaik."

@@ -9,7 +9,7 @@ import SEO from "@/components/SEO";
 
 const Index = () => {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-16 md:pt-20">
       <SEO
         path="/"
         description="Ozil Trans354 Tour & Travel - Rental mobil murah dan terpercaya di Jogja (Yogyakarta), Jawa & seluruh Indonesia. Sewa mobil dengan sopir, lepas kunci, antar jemput bandara. Armada 500+ mobil terawat, harga terjangkau, layanan 24 jam."

@@ -5,16 +5,16 @@ import carImage from "@/assets/pajero_sport.png";
 const WA_LINK = "https://wa.me/6281333993654";
 
 const stats = [
-  { value: "500+", label: "Armada Mobil", icon: Car },
-  { value: "50+", label: "Pelanggan Puas", icon: Users },
+  { value: "50+", label: "Armada Mobil", icon: Car },
+  { value: "500+", label: "Pelanggan Puas", icon: Users },
   { value: "10+", label: "Tahun Pengalaman", icon: Clock },
   { value: "24 Jam", label: "Layanan Siap Sedia", icon: Headphones },
 ];
 
 const HeroSection = () => {
   return (
-    <section id="beranda" className="relative bg-background min-h-screen flex flex-col justify-center pt-10 overflow-hidden">
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-12 md:py-10 w-full">
+    <section id="beranda" className="relative bg-background min-h-screen flex flex-col justify-center overflow-hidden">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-5 md:py-10 w-full">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Left content */}
           <motion.div
@@ -43,7 +43,7 @@ const HeroSection = () => {
               href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-4 bg-accent text-accent-foreground pl-6 pr-2 py-2 rounded-full font-bold text-base hover:bg-accent/90 hover:scale-105 transition-all shadow-lg shadow-accent/20"
+              className="mt-8 hidden md:inline-flex items-center gap-4 bg-accent text-accent-foreground pl-6 pr-2 py-2 rounded-full font-bold text-base hover:bg-accent/90 hover:scale-105 transition-all shadow-lg shadow-accent/20"
             >
               Booking Sekarang
               <div className="bg-background text-accent p-3 rounded-full flex items-center justify-center">
@@ -57,7 +57,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 80 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative flex justify-end -mr-4 md:-mr-20 lg:-mr-40"
+            className="relative flex justify-end -mr-4 md:-mr-20 lg:-mr-40 mt-7 lg:mt-0"
           >
             {/* Accent rounded rectangle background */}
             <div className="absolute -top-[25%] right-[5%] w-[55%] h-[115%] bg-primary rounded-t-[3rem] overflow-hidden">
@@ -111,6 +111,26 @@ const HeroSection = () => {
               className="relative z-10 w-full max-w-2xl md:max-w-3xl lg:max-w-5xl object-contain drop-shadow-2xl"
             />
           </motion.div>
+
+          {/* Mobile CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex justify-start md:hidden w-full z-20 mt-2"
+          >
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-4 bg-accent text-accent-foreground pl-6 pr-2 py-2 rounded-full font-bold text-base hover:bg-accent/90 hover:scale-105 transition-all shadow-lg shadow-accent/20"
+            >
+              Booking Sekarang
+              <div className="bg-background text-accent p-3 rounded-full flex items-center justify-center">
+                <ArrowUpRight className="w-5 h-5" />
+              </div>
+            </a>
+          </motion.div>
         </div>
 
         {/* Stats */}
@@ -118,13 +138,13 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 bg-white rounded-2xl shadow-xl border border-border/50 p-4 md:p-6 flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-0"
+          className="mt-12 bg-white rounded-2xl shadow-xl border border-border/50 p-4 md:p-6 grid grid-cols-2 md:flex md:flex-row items-stretch md:items-center gap-6 gap-y-8 md:gap-0"
         >
           {stats.map((stat, index) => (
             <div key={stat.label} className="flex items-center flex-1">
-              <div className="flex-1 flex flex-col items-center gap-2 px-4">
-                <stat.icon className="w-10 h-10 text-primary" />
-                <div className="text-2xl md:text-3xl font-extrabold text-primary">{stat.value}</div>
+              <div className="flex-1 flex flex-col items-center gap-2 px-2 md:px-4 text-center">
+                <stat.icon className="w-8 h-8 md:w-10 md:h-10 text-primary" />
+                <div className="text-xl md:text-3xl font-extrabold text-primary">{stat.value}</div>
                 <div className="text-xs md:text-sm text-muted-foreground">{stat.label}</div>
               </div>
               {index < stats.length - 1 && (

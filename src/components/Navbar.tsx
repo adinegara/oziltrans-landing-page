@@ -53,7 +53,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2">
           <img src={logo} alt="Ozil Trans354" className="w-9 h-9 rounded-full object-cover" />
-          <span className="text-black font-bold text-lg leading-tight uppercase">
+          <span className="text-black font-bold text-md lg:text-lg leading-tight uppercase">
             Ozil Trans354 Tour & Travel
           </span>
         </Link>

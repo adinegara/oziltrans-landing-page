@@ -1,36 +1,68 @@
 import { motion } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
+import Papa from "papaparse";
 
-const testimonials = [
-  { name: "Ibnu - Padang", text: "Pelayanan sangat memuaskan! Mobil bersih, sopir ramah, dan tepat waktu. Sangat direkomendasikan!", rating: 5 },
-  { name: "Dina - Pekanbaru", text: "Sudah 3 kali rental di Ozil Trans354, selalu puas dengan pelayanannya. Harga juga bersaing!", rating: 5 },
-  { name: "Achmad Samy", text: "Booking mudah lewat WhatsApp, respon cepat, dan armada mobilnya bagus-bagus. Top!", rating: 5 },
-  { name: "Anisa Nur - Surabaya", text: "Pertama kali coba rental di sini dan langsung jadi langganan. Sopirnya sangat profesional dan mobilnya wangi!", rating: 5 },
-  { name: "Hans - Kapuas", text: "Sewa mobil untuk acara kantor, semua berjalan lancar. Armada datang tepat waktu dan kondisi prima.", rating: 5 },
-  { name: "Novarinta", text: "Harga terjangkau tapi kualitas premium. Anak-anak nyaman selama perjalanan wisata keluarga kami.", rating: 5 },
-];
+// Replace this with your Google Sheet CSV publish link for Sheet2
+const GOOGLE_SHEET_TESTIMONIALS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTHgf5JKWQXP6qLjHqs2-0Jkj15g93qIvkxpPPxCio4kTEmKoditYBzpBCPO5dE5IaKAt_ALF3IOFfD/pub?gid=428103020&single=true&output=csv";
+
+interface TestimonialData {
+  name: string;
+  text: string;
+  rating: number;
+}
 
 const CARDS_PER_SLIDE = 3;
-const totalSlides = Math.ceil(testimonials.length / CARDS_PER_SLIDE);
 
 const TestimonialsSection = () => {
+  const [testimonials, setTestimonials] = useState<TestimonialData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  const totalSlides = Math.ceil(testimonials.length / CARDS_PER_SLIDE);
+
   const next = useCallback(() => {
+    if (totalSlides === 0) return;
     setCurrent((prev) => (prev + 1) % totalSlides);
-  }, []);
+  }, [totalSlides]);
 
   const prev = useCallback(() => {
+    if (totalSlides === 0) return;
     setCurrent((prev) => (prev - 1 + totalSlides) % totalSlides);
+  }, [totalSlides]);
+
+  useEffect(() => {
+    // Fetch data from Google Sheets (Sheet 2)
+    setIsLoading(true);
+    Papa.parse(GOOGLE_SHEET_TESTIMONIALS_URL, {
+      download: true,
+      header: true,
+      complete: (results) => {
+        const parsedTestimonials = results.data
+          .filter((row: any) => row.name && row.text) // Ensure row has basic data
+          .map((row: any) => ({
+            name: row.name,
+            text: row.text,
+            rating: parseInt(row.rating) || 5,
+          }));
+        setTestimonials(parsedTestimonials as TestimonialData[]);
+        setIsLoading(false);
+      },
+      error: (error: any) => {
+        console.error("Error fetching testimonial data:", error);
+        setError("Gagal memuat testimoni.");
+        setIsLoading(false);
+      },
+    });
   }, []);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || totalSlides <= 1) return;
     const interval = setInterval(next, 5000);
     return () => clearInterval(interval);
-  }, [isPaused, next]);
+  }, [isPaused, next, totalSlides]);
 
   const currentCards = testimonials.slice(
     current * CARDS_PER_SLIDE,
@@ -61,36 +93,54 @@ const TestimonialsSection = () => {
             onTouchStart={() => setIsPaused(true)}
             onTouchEnd={() => setIsPaused(false)}
           >
+            {/* Error State */}
+            {error && (
+              <div className="text-center py-12 text-destructive">
+                <p>{error}</p>
+              </div>
+            )}
+
+            {/* Loading State */}
+            {isLoading && !error && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-48 bg-white/50 border border-border rounded-2xl p-6 shadow-sm animate-pulse" />
+                ))}
+              </div>
+            )}
+
             {/* Cards */}
-            <motion.div
-              key={current}
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.35 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
-              {currentCards.map((t) => (
-                <div
-                  key={t.name}
-                  className="bg-white border border-border rounded-2xl p-6 shadow-sm"
-                >
-                  <div className="flex gap-1 mb-3">
-                    {Array.from({ length: t.rating }).map((_, j) => (
-                      <Star key={j} className="w-4 h-4 fill-accent text-accent" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed italic">
-                    "{t.text}"
-                  </p>
-                  <div className="mt-4 flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-sm">
-                      {t.name.charAt(0)}
+            {!isLoading && !error && (
+              <motion.div
+                key={current}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.35 }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              >
+                {currentCards.map((t) => (
+                  <div
+                    key={t.name}
+                    className="bg-white border border-border rounded-2xl p-6 shadow-sm"
+                  >
+                    <div className="flex gap-1 mb-3">
+                      {Array.from({ length: t.rating }).map((_, j) => (
+                        <Star key={j} className="w-4 h-4 fill-accent text-accent" />
+                      ))}
                     </div>
-                    <span className="text-foreground font-semibold text-sm">{t.name}</span>
+                    <p className="text-muted-foreground text-sm leading-relaxed italic">
+                      "{t.text}"
+                    </p>
+                    <div className="mt-4 flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-sm">
+                        {t.name.charAt(0)}
+                      </div>
+                      <span className="text-foreground font-semibold text-sm">{t.name}</span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </motion.div>
+                ))}
+              </motion.div>
+            )}
 
             {/* Bottom bar: dots left, nav buttons right */}
             <div className="flex items-center justify-between mt-8">

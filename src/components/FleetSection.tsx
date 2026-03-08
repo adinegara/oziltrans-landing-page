@@ -1,19 +1,6 @@
 import { motion } from "framer-motion";
 import { Users, Fuel, Settings, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import carCorolla from "@/assets/2018 Toyota Corolla.png";
-import carBrio from "@/assets/Honda Brio.png";
-import carGrandCherokee from "@/assets/Jeep Grand Cherokee.png";
-import carAlphard from "@/assets/Toyota Alphard.png";
-import carAvanza from "@/assets/Toyota Avanza.png";
-import carFortunerTrd from "@/assets/Toyota Fortuner TRD Sportivo Auto.png";
-import carHilux from "@/assets/Toyota Hilux  Truk pickup.png";
-import carHiace from "@/assets/hiace commuter.jpg";
-import carXenia from "@/assets/great new xenia.png";
-import carInnova from "@/assets/kijang innova.png";
-import carLuxio from "@/assets/luxio type M.png";
-import carCalya from "@/assets/new calya.png";
-import carPajero from "@/assets/pajero_sport.png";
 import Papa from "papaparse";
 
 const WA_LINK = "https://wa.me/6281333993654";

@@ -5,7 +5,7 @@ import carImage from "@/assets/pajero_sport.png";
 const WA_LINK = "https://wa.me/6281333993654";
 
 const stats = [
-  { value: "50+", label: "Armada Mobil", icon: Car },
+  { value: "100+", label: "Armada Mobil", icon: Car },
   { value: "500+", label: "Pelanggan Puas", icon: Users },
   { value: "10+", label: "Tahun Pengalaman", icon: Clock },
   { value: "24 Jam", label: "Layanan Siap Sedia", icon: Headphones },
